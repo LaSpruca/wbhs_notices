@@ -40,6 +40,20 @@
     }
 
     export let notices: NoticesResults;
+
+    let index = 0;
+    // tslint:disable-next-line
+    if (process.browser === true) {
+        setInterval(() => {
+            if (index < notices.NumberRecords) {
+                index++;
+                window.location.href = "#" + index;
+            } else {
+                index = 0;
+                window.location.href = "#0";
+            }
+        }, 5000);
+    }
 </script>
 
 <script context="module" lang="ts">
@@ -62,15 +76,7 @@
 </script>
 
 <style lang="scss">
-  :global(*) {
-    margin: 0;
-    box-sizing: border-box;
-  }
 
-  :global(body) {
-    background: linear-gradient(to bottom, blue, cyan);
-    color: black;
-  }
 
   .notice-wrapper {
     padding: 30px;
@@ -135,7 +141,7 @@
   }
 </style>
 
-<h1>WBHS Notices</h1>
+<h1 id="0">WBHS Notices</h1>
 
 <p class="date">{new Date().toDateString()}</p>
 
@@ -171,7 +177,7 @@
             <div class="notice" id="{generalNotice.Index}">
                 <div class="info">
                     <p>{generalNotice.Level}</p>
-                    <p>{generalNotice.Subject}</p>
+                    <p style="font-weight: bold">{generalNotice.Subject}</p>
                     <p>{generalNotice.Teacher}</p>
                 </div>
                 <p class="content">
