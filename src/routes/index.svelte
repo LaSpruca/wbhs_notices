@@ -41,6 +41,8 @@
 
     export let notices: NoticesResults;
 
+
+    // Scroll to next notices every 5 seconds
     let index = 0;
     // tslint:disable-next-line
     if (process.browser === true) {
@@ -52,7 +54,14 @@
                 index = 0;
                 window.location.href = "#0";
             }
-        }, 5000);
+        }, 5_000);
+
+        // Refresh the page between 5am and 6am every day
+        setInterval(() => {
+            if (new Date().getHours() > 4 && new Date().getHours() < 7) {
+                window.location.reload();
+            }
+        }, 3_600_000);
     }
 </script>
 
