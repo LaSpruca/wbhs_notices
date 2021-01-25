@@ -1,6 +1,46 @@
 import axios from "axios";
 import parser from "fast-xml-parser";
 
+type NoticesResults = {
+    apiversion: string,
+    portalversion: string,
+    AccessLevel: number,
+    ErrorCode: number,
+    NoticeDate: string,
+    NumberRecords: number,
+    MeetingNotices: MeetingNotices,
+    GeneralNotices: GeneralNotices,
+}
+
+type MeetingNotices = {
+    NumberMeetingRecords: number,
+    Meeting: Array<Meeting>,
+}
+
+type Meeting = {
+    Index: number,
+    Level: string,
+    Subject: string,
+    Body: string,
+    Teacher: string,
+    PlaceMeet: string,
+    DateMeet: string,
+    TimeMeet: string,
+}
+
+type GeneralNotices = {
+    NumberGeneralRecords: number,
+    General: General[],
+}
+
+type General = {
+    Index: number,
+    Level: string,
+    Subject: string,
+    Body: string,
+    Teacher: string,
+}
+
 export const get = async (req, res, next) => {
     // let today = new Date("11-03-2020");
 
@@ -21,5 +61,7 @@ export const get = async (req, res, next) => {
         'Content-Type': 'application/json'
     });
 
-    res.end(JSON.stringify(parser.parse(noticesRequest.data)["NoticesResults"]));
+    let notices: NoticesResults = parser.parse(noticesRequest.data)["NoticesResults"];
+
+    res.end(JSON.stringify(notices));
 }

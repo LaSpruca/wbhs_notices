@@ -47,6 +47,14 @@
         let data = await this.fetch("notices.json");
         let json_data = await data.json();
 
+        for (let notice in json_data.MeetingNotices.Meeting) {
+            json_data.MeetingNotices.Meeting[notice].Index = parseInt(notice) + 1;
+        }
+
+        for (let notice in json_data.GeneralNotices.General) {
+            json_data.GeneralNotices.General[notice].Index = parseInt(notice) + 1 + json_data.MeetingNotices.NumberMeetingRecords;
+        }
+
         return {
             notices: json_data
         };
@@ -66,13 +74,13 @@
 
   .notice-wrapper {
     padding: 30px;
-    margin: 10%;
+    margin: 10px 10%;
   }
 
   .meeting .notice {
     .info {
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       margin-bottom: 10px;
       div {
         display: flex;
@@ -86,37 +94,70 @@
     }
   }
 
+  .general .notice .info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
   .notice {
-    padding: 30px;
+    padding: 0 30px;
     margin: 1rem 0;
     background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
 
     border-radius: 30px;
+
+    .info {
+      padding: 10px;
+    }
+  }
+
+  h1, h3, .date {
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 60pt;
+    font-weight: 900;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    padding-top: 5rem;
+    font-size: 30pt;
+    font-weight: 900;
+  }
+
+  .date {
+    font-size: 20pt;
+    color: #181818;
   }
 </style>
 
 <h1>WBHS Notices</h1>
 
+<p class="date">{new Date().toDateString()}</p>
+
 <h3>Meeting Notices</h3>
 <div class="meeting notice-wrapper">
     {#if notices.MeetingNotices.NumberMeetingRecords !== 0 }
-        {#each notices.MeetingNotices.Meeting as notice}
-            <div class="notice">
+        {#each notices.MeetingNotices.Meeting as meetingNotice}
+            <div class="notice" id="{meetingNotice.Index}">
                 <div class="info">
-                    <div>
-                        <p>{notice.Level}</p>
-                        <p>{notice.Subject}</p>
-                        <p>{notice.Teacher}</p>
+                    <div style="padding-top: 10px">
+                        <p>{meetingNotice.Level}</p>
+                        <p style="font-weight: bold">{meetingNotice.Subject}</p>
+                        <p>{meetingNotice.Teacher}</p>
                     </div>
                     <div class="e">
-                        <p>{notice.PlaceMeet}</p>
-                        <p>{notice.DateMeet}</p>
-                        <p>{notice.TimeMeet}</p>
+                        <p>{meetingNotice.PlaceMeet}</p>
+                        <p>{meetingNotice.DateMeet}</p>
+                        <p>{meetingNotice.TimeMeet}</p>
                     </div>
                 </div>
                 <p class="content">
-                    {notice.Body}
+                    {meetingNotice.Body}
                 </p>
             </div>
         {/each}
@@ -126,15 +167,15 @@
 <h3>General Notices</h3>
 <div class="general notice-wrapper">
     {#if notices.GeneralNotices.NumberGeneralRecords !== 0 }
-        {#each notices.GeneralNotices.General as notice}
-            <div class="notice">
+        {#each notices.GeneralNotices.General as generalNotice}
+            <div class="notice" id="{generalNotice.Index}">
                 <div class="info">
-                    <p>{notice.Level}</p>
-                    <p>{notice.Subject}</p>
-                    <p>{notice.Teacher}</p>
+                    <p>{generalNotice.Level}</p>
+                    <p>{generalNotice.Subject}</p>
+                    <p>{generalNotice.Teacher}</p>
                 </div>
                 <p class="content">
-                    {notice.Body}
+                    {generalNotice.Body}
                 </p>
             </div>
         {/each}
