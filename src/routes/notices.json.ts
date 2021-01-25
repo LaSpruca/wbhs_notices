@@ -42,13 +42,14 @@ type General = {
 }
 
 export const get = async (req, res, next) => {
-    // let today = new Date("11-03-2020");
+    let today = new Date();
 
     let params = new URLSearchParams();
     params.append("Command", "GetNotices");
     params.append("Key", "vtku");
-    // params.append("Date", `${today.getDay()}/${today.getMonth()}/${today.getFullYear()}`)
-    params.append("Date", `11/03/2020`)
+    params.append("Date", `${today.getDay()}/${today.getMonth()}/${today.getFullYear()}`)
+    // If you want to use a day with notices, for development purposes when there is no notices, comment out previous line and uncomment next line
+    // params.append("Date", `11/03/2020`)
 
     let noticesRequest = await axios.post("https://portal.wbhs.school.nz/api/api.php", params, {
         headers: {
