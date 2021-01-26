@@ -47,7 +47,7 @@
     // tslint:disable-next-line
     if (process.browser === true) {
         setInterval(() => {
-            if (index < notices.NumberRecords) {
+            if (index < notices.NumberRecords && (window.innerHeight + window.scrollY) <= document.body.offsetHeight) {
                 index++;
                 window.location.href = "#" + index;
             } else {
@@ -85,8 +85,6 @@
 </script>
 
 <style lang="scss">
-
-
   .notice-wrapper {
     padding: 30px;
     margin: 10px 10%;
@@ -97,6 +95,7 @@
       display: flex;
       flex-direction: column-reverse;
       margin-bottom: 10px;
+
       div {
         display: flex;
         flex-direction: row;
@@ -116,14 +115,26 @@
   }
 
   .notice {
-    padding: 0 30px;
-    margin: 1rem 0;
-    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
-
-    border-radius: 30px;
+    padding: 40px 30px;
 
     .info {
       padding: 10px;
+    }
+
+    &:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:first-child {
+      border-radius: 20px 20px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 20px 20px;
     }
   }
 
@@ -149,6 +160,10 @@
     color: #181818;
   }
 </style>
+
+<svelte:head>
+    <title>WBHS Notices</title>
+</svelte:head>
 
 <h1 id="0">WBHS Notices</h1>
 

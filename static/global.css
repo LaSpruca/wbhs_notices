@@ -8,7 +8,7 @@ html {
 }
 
 body {
-	background: linear-gradient(to bottom, blue, cyan);
+	background: #2bd8ff;
 	color: black;
 	margin: 0;
 	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
