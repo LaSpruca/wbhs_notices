@@ -46,15 +46,15 @@
     let index = 0;
     // tslint:disable-next-line
     if (process.browser === true) {
-        // setInterval(() => {
-        //     if (index < notices.NumberRecords && (window.innerHeight + window.scrollY) <= document.body.offsetHeight) {
-        //         index++;
-        //         window.location.href = "#" + index;
-        //     } else {
-        //         index = 0;
-        //         window.location.href = "#0";
-        //     }
-        // }, 1500);
+        setInterval(() => {
+            if (index < notices.NumberRecords && (window.innerHeight + window.scrollY) <= document.body.offsetHeight) {
+                index++;
+                window.location.href = "#" + index;
+            } else {
+                index = 0;
+                window.location.href = "#0";
+            }
+        }, 1500);
 
         // Refresh the page between 5am and 6am every day
         setInterval(() => {
