@@ -46,15 +46,15 @@
     let index = 0;
     // tslint:disable-next-line
     if (process.browser === true) {
-        setInterval(() => {
-            if (index < notices.NumberRecords && (window.innerHeight + window.scrollY) <= document.body.offsetHeight) {
-                index++;
-                window.location.href = "#" + index;
-            } else {
-                index = 0;
-                window.location.href = "#0";
-            }
-        }, 5_000);
+        // setInterval(() => {
+        //     if (index < notices.NumberRecords && (window.innerHeight + window.scrollY) <= document.body.offsetHeight) {
+        //         index++;
+        //         window.location.href = "#" + index;
+        //     } else {
+        //         index = 0;
+        //         window.location.href = "#0";
+        //     }
+        // }, 1500);
 
         // Refresh the page between 5am and 6am every day
         setInterval(() => {
@@ -72,10 +72,12 @@
 
         for (let notice in json_data.MeetingNotices.Meeting) {
             json_data.MeetingNotices.Meeting[notice].Index = parseInt(notice) + 1;
+            json_data.MeetingNotices.Meeting[notice].Body = json_data.MeetingNotices.Meeting[notice].Body.replace(/&amp;/g, "&");
         }
 
         for (let notice in json_data.GeneralNotices.General) {
             json_data.GeneralNotices.General[notice].Index = parseInt(notice) + 1 + json_data.MeetingNotices.NumberMeetingRecords;
+            json_data.GeneralNotices.General[notice].Body = json_data.GeneralNotices.General[notice].Body.replace("&amp;", "&");
         }
 
         return {
@@ -90,43 +92,45 @@
     margin: 10px 10%;
   }
 
-  .meeting .notice {
-    .info {
-      display: flex;
-      flex-direction: column-reverse;
-      margin-bottom: 10px;
-
-      div {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        * {
-          width: fit-content;
-        }
-      }
-    }
+  .meeting .info {
+    grid-template-columns: 65% 10% 5% 10% 10%;
   }
 
-  .general .notice .info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  .general .info {
+    grid-template-columns: 85% 10% 5%;
   }
 
   .notice {
     padding: 40px 30px;
 
     .info {
+      text-align: center;
       padding: 10px;
+      display: grid;
+      align-items: center;
+
+      .i-ele.sub {
+        color: white;
+        font-size: 20pt;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .i-ele {
+        color: #f1f1f1;
+      }
+    }
+
+    .content {
+      font-size: 15pt;
     }
 
     &:nth-child(even) {
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 0.5);
     }
 
     &:nth-child(odd) {
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
     &:first-child {
@@ -157,7 +161,7 @@
 
   .date {
     font-size: 20pt;
-    color: #181818;
+    color: #E8E8E8;
   }
 </style>
 
@@ -175,15 +179,20 @@
         {#each notices.MeetingNotices.Meeting as meetingNotice}
             <div class="notice" id="{meetingNotice.Index}">
                 <div class="info">
-                    <div style="padding-top: 10px">
+                    <div class="i-ele sub">
+                        <p>{meetingNotice.Subject}</p>
+                    </div>
+                    <div class="i-ele">
                         <p>{meetingNotice.Level}</p>
-                        <p style="font-weight: bold">{meetingNotice.Subject}</p>
+                    </div>
+                    <div class="i-ele">
                         <p>{meetingNotice.Teacher}</p>
                     </div>
-                    <div class="e">
+                    <div class="i-ele">
+                        <p>{meetingNotice.DateMeet} {meetingNotice.TimeMeet}</p>
+                    </div>
+                    <div class="i-ele">
                         <p>{meetingNotice.PlaceMeet}</p>
-                        <p>{meetingNotice.DateMeet}</p>
-                        <p>{meetingNotice.TimeMeet}</p>
                     </div>
                 </div>
                 <p class="content">
@@ -191,6 +200,10 @@
                 </p>
             </div>
         {/each}
+    {:else}
+        <div class="notice">
+            No Meeting Notices Today :)
+        </div>
     {/if}
 </div>
 
@@ -200,14 +213,24 @@
         {#each notices.GeneralNotices.General as generalNotice}
             <div class="notice" id="{generalNotice.Index}">
                 <div class="info">
-                    <p>{generalNotice.Level}</p>
-                    <p style="font-weight: bold">{generalNotice.Subject}</p>
-                    <p>{generalNotice.Teacher}</p>
+                    <div class="i-ele sub">
+                        <p>{generalNotice.Subject}</p>
+                    </div>
+                    <div class="i-ele">
+                        <p>{generalNotice.Level}</p>
+                    </div>
+                    <div class="i-ele">
+                        <p>{generalNotice.Teacher}</p>
+                    </div>
                 </div>
                 <p class="content">
                     {generalNotice.Body}
                 </p>
             </div>
         {/each}
+    {:else}
+        <div class="notice">
+            No Meeting Notices Today :)
+        </div>
     {/if}
 </div>
