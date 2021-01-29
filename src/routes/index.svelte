@@ -54,7 +54,7 @@
                 index = 0;
                 window.location.href = "#0";
             }
-        }, 1500);
+        }, 10_000);
 
         // Refresh the page between 5am and 6am every day
         setInterval(() => {
@@ -90,6 +90,7 @@
   .notice-wrapper {
     padding: 30px;
     margin: 10px 10%;
+    filter: drop-shadow(0 0 20px black);
   }
 
   .meeting .info {
@@ -163,6 +164,17 @@
     font-size: 20pt;
     color: #E8E8E8;
   }
+
+  .no-notice {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 20pt;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 30px;
+    border-radius: 20px;
+  }
 </style>
 
 <svelte:head>
@@ -201,8 +213,8 @@
             </div>
         {/each}
     {:else}
-        <div class="notice">
-            No Meeting Notices Today :)
+        <div class="no-notice">
+            No General Notices Today
         </div>
     {/if}
 </div>
@@ -229,8 +241,8 @@
             </div>
         {/each}
     {:else}
-        <div class="notice">
-            No Meeting Notices Today :)
+        <div class="no-notice">
+            No General Notices Today
         </div>
     {/if}
 </div>
