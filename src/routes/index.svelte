@@ -113,7 +113,7 @@
       .i-ele.sub {
         color: white;
         font-size: 20pt;
-        font-weight: bold;
+        font-weight: 900;
         text-align: left;
       }
 
